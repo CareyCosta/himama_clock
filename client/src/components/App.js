@@ -8,21 +8,26 @@ const App = () => {
 
   useEffect(() => {
     getLogs();
-  });
+  }, []);
 
   const getLogs = async () => {
     axios
       .get(`http://localhost:3001/sessions`)
       .then(response => {
-        console.log(response);
-        setLogs(response);
+        console.log("response from axios get sessions", response.data);
+        setLogs(response.data);
       })
       .catch(error => console.log(error));
   };
 
   const handleCreateSession = session => {
-    console.log("handleCreateSession", session);
-    // createSession(session).then(resp => setLogs([...logs, resp]));
+    const data = { check_in: session.checkIn, check_out: session.checkOut };
+    axios
+      .post(`http://localhost:3001/sessions/`, data)
+      .then(() => {
+        getLogs();
+      })
+      .catch(error => console.log(error));
   };
 
   return (
