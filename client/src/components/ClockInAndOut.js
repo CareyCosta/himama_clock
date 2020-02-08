@@ -3,12 +3,17 @@ import Clock from "react-live-clock";
 import Button from "@material-ui/core/Button/index";
 
 const ClockInAndOut = ({ onAddToTimeLog }) => {
-  const [isCheckedIn, toggleCheckIn] = useState(false);
   const [time, setTime] = useState("");
+  const [currentSession, setCurrentSession] = useState({});
 
-  const handleCheckInOut = () => {
-    toggleCheckIn(!isCheckedIn);
-    onAddToTimeLog(time);
+  const handleCheckIn = () => {
+    setCurrentSession({ checkIn: time });
+  };
+
+  const handleCheckOut = () => {
+    setCurrentSession((currentSession["checkOut"] = time));
+    onAddToTimeLog(currentSession);
+    setCurrentSession({});
   };
 
   return (
@@ -21,10 +26,10 @@ const ClockInAndOut = ({ onAddToTimeLog }) => {
       />
       <Button
         variant="contained"
-        color={!isCheckedIn ? "primary" : "secondary"}
-        onClick={handleCheckInOut}
+        color={!currentSession.checkIn ? "primary" : "secondary"}
+        onClick={currentSession.checkIn ? handleCheckOut : handleCheckIn}
       >
-        {isCheckedIn ? "Check Out" : "Check In"}
+        {currentSession.checkIn ? "Check Out" : "Check In"}
       </Button>
     </Fragment>
   );
