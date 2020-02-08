@@ -6,7 +6,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 
-const TimeLogList = ({ logs, onUpdateSession, onDeleteSession }) => {
+const TimeLogList = ({ logs, onUpdateLog, onDeleteLog }) => {
   return (
     <Table>
       <TableHead>
@@ -21,8 +21,8 @@ const TimeLogList = ({ logs, onUpdateSession, onDeleteSession }) => {
           <SessionRow
             log={log}
             key={log.id}
-            onUpdateSession={onUpdateSession}
-            onDeleteSession={onDeleteSession}
+            onUpdateLog={onUpdateLog}
+            onDeleteLog={onDeleteLog}
           />
         ))}
       </TableBody>

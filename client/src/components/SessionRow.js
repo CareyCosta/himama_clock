@@ -5,12 +5,12 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { isEmpty } from "lodash";
 
-const SessionRow = ({ log, onUpdateSession, onDeleteSession }) => {
+const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
   const [updatedValues, setUpdatedValues] = useState({});
 
   const handleClickSave = () => {
-    onUpdateSession(updatedValues);
-    setUpdatedValues({})
+    onUpdateLog(updatedValues);
+    setUpdatedValues({});
   };
 
   const handleChange = e => {
@@ -57,7 +57,7 @@ const SessionRow = ({ log, onUpdateSession, onDeleteSession }) => {
         />
       </TableCell>
       <TableCell>
-        <Button variant="text" onClick={() => onDeleteSession(log.id)}>
+        <Button variant="text" onClick={() => onDeleteLog(log.id)}>
           Delete
         </Button>
         <Button

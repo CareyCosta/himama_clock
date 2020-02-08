@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   # GET /sessions
   def index
-    @sessions = Session.order('date')
+    @sessions = Session.order(date: :desc, check_out: :desc)
 
     render json: @sessions
   end

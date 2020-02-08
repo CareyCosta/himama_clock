@@ -22,7 +22,7 @@ const App = () => {
       .catch(error => console.log(error));
   };
 
-  const createSession = session => {
+  const createLog = session => {
     console.log("handle create session", session);
     const data = {
       check_in: session.checkIn,
@@ -37,7 +37,7 @@ const App = () => {
       .catch(error => console.log(error));
   };
 
-  const updateSession = session => {
+  const updateLog = session => {
     console.log("handle update session", session);
     const data = {
       check_in: session.check_in,
@@ -46,13 +46,14 @@ const App = () => {
     };
     axios
       .put(`http://localhost:3001/sessions/${session.id}`, data)
-      .then(() => {
+      .then(resp => {
+        console.log(resp)
         getLogs();
       })
       .catch(error => console.log(error));
   };
 
-  const deleteSession = sessionId => {
+  const deleteLog = sessionId => {
     console.log("handle delete session", sessionId);
     axios
       .delete(`http://localhost:3001/sessions/${sessionId}`)
@@ -65,12 +66,12 @@ const App = () => {
   return (
     <Fragment>
       <h1 className="App-header">Carey's App </h1>
-      <ClockInAndOut onCreateSession={createSession} />
+      <ClockInAndOut onCreateLog={createLog} />
       <TimeLogList
         logs={logs}
         dates={dates}
-        onUpdateSession={updateSession}
-        onDeleteSession={deleteSession}
+        onUpdateLog={updateLog}
+        onDeleteLog={deleteLog}
       />
     </Fragment>
   );
