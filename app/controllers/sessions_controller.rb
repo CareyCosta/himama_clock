@@ -1,9 +1,11 @@
 class SessionsController < ApplicationController
   before_action :set_session, only: [:show, :update, :destroy]
+  before_action :cors_preflight_check
+  after_action :cors_set_access_control_headers
 
   # GET /sessions
   def index
-    @sessions = Session.all
+    @sessions = Session.order(:id)
 
     render json: @sessions
   end

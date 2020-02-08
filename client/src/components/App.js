@@ -12,7 +12,7 @@ const App = () => {
 
   const getLogs = async () => {
     axios
-      .get(`/api/sessions`)
+      .get(`http://localhost:3001/sessions`)
       .then(response => {
         console.log(response);
         setLogs(response);
