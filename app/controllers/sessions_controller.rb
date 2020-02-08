@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   # GET /sessions
   def index
-    @sessions = Session.order(:id)
+    @sessions = Session.order('date')
 
     render json: @sessions
   end
@@ -48,6 +48,6 @@ class SessionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def session_params
-      params.require(:session).permit(:check_in, :check_out)
+      params.require(:session).permit(:check_in, :check_out, :date)
     end
 end

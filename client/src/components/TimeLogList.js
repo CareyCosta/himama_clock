@@ -1,17 +1,32 @@
 import React from "react";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
+import Table from "@material-ui/core/Table";
+import SessionRow from "./SessionRow";
+import { TableHead } from "@material-ui/core";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import TableBody from "@material-ui/core/TableBody";
 
-const TimeLogList = ({ logs }) => {
-  console.log("logs list", logs);
+const TimeLogList = ({ logs, onUpdateSession, onDeleteSession }) => {
   return (
-    <List component="ul">
-      {logs.map(time => (
-        <ListItem component="li" key={time.id}>
-          Check In: {time.check_in} Check Out: {time.check_in}
-        </ListItem>
-      ))}
-    </List>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Date</TableCell>
+          <TableCell>Check In</TableCell>
+          <TableCell>Check Out</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {logs.map(log => (
+          <SessionRow
+            log={log}
+            key={log.id}
+            onUpdateSession={onUpdateSession}
+            onDeleteSession={onDeleteSession}
+          />
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

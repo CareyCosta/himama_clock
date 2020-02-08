@@ -2,17 +2,17 @@ import React, { Fragment, useState } from "react";
 import Clock from "react-live-clock";
 import Button from "@material-ui/core/Button/index";
 
-const ClockInAndOut = ({ onAddToTimeLog }) => {
+const ClockInAndOut = ({ onCreateSession }) => {
   const [time, setTime] = useState("");
   const [currentSession, setCurrentSession] = useState({});
 
   const handleCheckIn = () => {
-    setCurrentSession({ checkIn: time });
+    setCurrentSession({ checkIn: time, date: new Date() });
   };
 
   const handleCheckOut = () => {
     setCurrentSession((currentSession["checkOut"] = time));
-    onAddToTimeLog(currentSession);
+    onCreateSession(currentSession);
     setCurrentSession({});
   };
 
