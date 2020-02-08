@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import Clock from "react-live-clock";
+import Button from "@material-ui/core/Button";
 
 const App = () => (
   <Fragment>
@@ -9,6 +10,7 @@ const App = () => (
       ticking={true}
       timezone={"Eastern Standard Time"}
     />
+    <Button>Hello World</Button>
   </Fragment>
 );
 
