@@ -19,6 +19,7 @@ const ClockInAndOut = ({ onCreateLog, user }) => {
 
   const handleCheckIn = () => {
     setCurrentLog({ checkIn: time, date: new Date(), user_id: user.id });
+    onCreateLog(currentLog);
   };
 
   const handleCheckOut = () => {
