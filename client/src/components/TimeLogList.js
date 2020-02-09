@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "@material-ui/core/Table";
-import SessionRow from "./SessionRow";
+import LogRow from "./LogRow";
 import { TableHead } from "@material-ui/core";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
@@ -22,7 +22,7 @@ const TimeLogList = ({ logs, onUpdateLog, onDeleteLog }) => {
       </TableHead>
       <TableBody>
         {logs.map(log => (
-          <SessionRow
+          <LogRow
             log={log}
             key={log.id}
             onUpdateLog={onUpdateLog}

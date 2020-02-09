@@ -1,81 +1,78 @@
-import React, { Fragment, useEffect, useState } from "react";
-import ClockInAndOut from "./ClockInAndOut";
-import TimeLogList from "./TimeLogList";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Welcome from "./Welcome";
+import Login from "./registrations/Login";
+import Signup from "./registrations/Signup";
 import axios from "axios";
-import { uniq } from "lodash";
-
-const ContainerStyles = {
-  width: "900px"
-};
 
 const App = () => {
-  const [logs, setLogs] = useState([]);
-  const [dates, setListOfDates] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUserInfo] = useState({});
 
   useEffect(() => {
-    getLogs();
+    loginStatus();
   }, []);
 
-  const getLogs = async () => {
+  const handleLogin = data => {
+    setIsLoggedIn(true);
+    setUserInfo(data.user);
+  };
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserInfo({});
+  };
+  const loginStatus = () => {
     axios
-      .get(`http://localhost:3001/sessions`)
+      .get("http://localhost:3001/logged_in", { withCredentials: true })
       .then(response => {
-        setListOfDates(uniq(response.data.map(resp => resp.date)));
-        setLogs(response.data);
+        if (response.data.logged_in) {
+          handleLogin(response);
+        } else {
+          handleLogout();
+        }
       })
-      .catch(error => console.log(error));
-  };
-
-  const createLog = session => {
-    console.log("handle create session", session);
-    const data = {
-      check_in: session.checkIn,
-      check_out: session.checkOut,
-      date: session.date
-    };
-    axios
-      .post(`http://localhost:3001/sessions/`, data)
-      .then(() => {
-        getLogs();
-      })
-      .catch(error => console.log(error));
-  };
-
-  const updateLog = session => {
-    console.log("handle update session", session);
-    const data = {
-      check_in: session.check_in,
-      check_out: session.check_out,
-      date: session.date
-    };
-    axios
-      .put(`http://localhost:3001/sessions/${session.id}`, data)
-      .then(resp => {
-        console.log(resp);
-        getLogs();
-      })
-      .catch(error => console.log(error));
-  };
-
-  const deleteLog = sessionId => {
-    console.log("handle delete session", sessionId);
-    axios
-      .delete(`http://localhost:3001/sessions/${sessionId}`)
-      .then(() => {
-        getLogs();
-      })
-      .catch(error => console.log(error));
+      .catch(error => console.log("api errors:", error));
   };
 
   return (
-    <div style={ContainerStyles}>
-      <ClockInAndOut onCreateLog={createLog} />
-      <TimeLogList
-        logs={logs}
-        dates={dates}
-        onUpdateLog={updateLog}
-        onDeleteLog={deleteLog}
-      />
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <Welcome
+                {...props}
+                loggedInStatus={isLoggedIn}
+                onLogout={handleLogout}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/login"
+            render={props => (
+              <Login
+                {...props}
+                onLogin={handleLogin}
+                loggedInStatus={isLoggedIn}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/signup"
+            render={props => (
+              <Signup
+                {...props}
+                onLogin={handleLogin}
+                loggedInStatus={isLoggedIn}
+              />
+            )}
+          />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 };

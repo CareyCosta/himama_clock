@@ -27,16 +27,16 @@ const ButtonContainer = {
 
 const ClockInAndOut = ({ onCreateLog }) => {
   const [time, setTime] = useState("");
-  const [currentSession, setCurrentSession] = useState({});
+  const [currentLog, setCurrentLog] = useState({});
 
   const handleCheckIn = () => {
-    setCurrentSession({ checkIn: time, date: new Date() });
+    setCurrentLog({ checkIn: time, date: new Date() });
   };
 
   const handleCheckOut = () => {
-    setCurrentSession((currentSession["checkOut"] = time));
-    onCreateLog(currentSession);
-    setCurrentSession({});
+    setCurrentLog((currentLog["checkOut"] = time));
+    onCreateLog(currentLog);
+    setCurrentLog({});
   };
 
   return (
@@ -54,11 +54,11 @@ const ClockInAndOut = ({ onCreateLog }) => {
           <Button
             variant="contained"
             fullWidth
-            color={!currentSession.checkIn ? "primary" : "secondary"}
-            onClick={currentSession.checkIn ? handleCheckOut : handleCheckIn}
+            color={!currentLog.checkIn ? "primary" : "secondary"}
+            onClick={currentLog.checkIn ? handleCheckOut : handleCheckIn}
             style={ButtonContainer}
           >
-            {currentSession.checkIn ? "Check Out" : "Check In"}
+            {currentLog.checkIn ? "Check Out" : "Check In"}
           </Button>
         </div>
       </div>

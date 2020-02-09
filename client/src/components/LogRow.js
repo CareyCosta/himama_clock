@@ -10,7 +10,7 @@ const CellStyles = {
   flexShrink: "1"
 };
 
-const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
+const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
   const [updatedValues, setUpdatedValues] = useState({});
 
   const handleClickSave = () => {
@@ -76,4 +76,4 @@ const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
   );
 };
 
-export default SessionRow;
+export default LogRow;

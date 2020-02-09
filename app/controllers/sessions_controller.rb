@@ -1,53 +1,44 @@
 class SessionsController < ApplicationController
-  before_action :set_session, only: [:show, :update, :destroy]
-  before_action :cors_preflight_check
-  after_action :cors_set_access_control_headers
+    before_action :cors_preflight_check
+    after_action :cors_set_access_control_headers
+def create
+    @user = User.find_by(email: session_params[:email])
 
-  # GET /sessions
-  def index
-    @sessions = Session.order(date: :desc, check_out: :desc)
-
-    render json: @sessions
-  end
-
-  # GET /sessions/1
-  def show
-    render json: @session
-  end
-
-  # POST /sessions
-  def create
-    @session = Session.new(session_params)
-
-    if @session.save
-      render json: @session, status: :created, location: @session
+    if @user && @user.authenticate(session_params[:password])
+      login!
+      render json: {
+        logged_in: true,
+        user: @user
+      }
     else
-      render json: @session.errors, status: :unprocessable_entity
+      render json: {
+        status: 401,
+        errors: ['no such user', 'verify credentials and try again or signup']
+      }
     end
   end
-
-  # PATCH/PUT /sessions/1
-  def update
-    if @session.update(session_params)
-      render json: @session
+def is_logged_in?
+    if logged_in? && current_user
+      render json: {
+        logged_in: true,
+        user: current_user
+      }
     else
-      render json: @session.errors, status: :unprocessable_entity
+      render json: {
+        logged_in: false,
+        message: 'no such user'
+      }
     end
   end
-
-  # DELETE /sessions/1
-  def destroy
-    @session.destroy
+def destroy
+    logout!
+    render json: {
+      status: 200,
+      logged_out: true
+    }
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_session
-      @session = Session.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
-    def session_params
-      params.require(:session).permit(:check_in, :check_out, :date)
-    end
+private
+def session_params
+    params.require(:user).permit(:username, :email, :password)
+  end
 end
