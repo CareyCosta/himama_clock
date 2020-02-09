@@ -6,9 +6,13 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 
+const TableStyles = {
+  margin: "0px 16px"
+};
+
 const TimeLogList = ({ logs, onUpdateLog, onDeleteLog }) => {
   return (
-    <Table>
+    <Table style={TableStyles}>
       <TableHead>
         <TableRow>
           <TableCell>Date</TableCell>

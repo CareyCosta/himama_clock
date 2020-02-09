@@ -4,6 +4,10 @@ import TimeLogList from "./TimeLogList";
 import axios from "axios";
 import { uniq } from "lodash";
 
+const ContainerStyles = {
+  width: "900px"
+};
+
 const App = () => {
   const [logs, setLogs] = useState([]);
   const [dates, setListOfDates] = useState([]);
@@ -47,7 +51,7 @@ const App = () => {
     axios
       .put(`http://localhost:3001/sessions/${session.id}`, data)
       .then(resp => {
-        console.log(resp)
+        console.log(resp);
         getLogs();
       })
       .catch(error => console.log(error));
@@ -64,8 +68,7 @@ const App = () => {
   };
 
   return (
-    <Fragment>
-      <h1 className="App-header">Carey's App </h1>
+    <div style={ContainerStyles}>
       <ClockInAndOut onCreateLog={createLog} />
       <TimeLogList
         logs={logs}
@@ -73,7 +76,7 @@ const App = () => {
         onUpdateLog={updateLog}
         onDeleteLog={deleteLog}
       />
-    </Fragment>
+    </div>
   );
 };
 

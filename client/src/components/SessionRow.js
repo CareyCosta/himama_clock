@@ -5,6 +5,11 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import { isEmpty } from "lodash";
 
+const CellStyles = {
+  borderBottom: "none",
+  flexShrink: "1"
+};
+
 const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
   const [updatedValues, setUpdatedValues] = useState({});
 
@@ -23,10 +28,9 @@ const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
 
   return (
     <TableRow hover>
-      <TableCell>
+      <TableCell style={CellStyles}>
         <TextField
           name="date"
-          label="Date"
           defaultValue={log.date}
           type="date"
           onChange={e => {
@@ -34,10 +38,9 @@ const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
           }}
         />
       </TableCell>
-      <TableCell>
+      <TableCell style={CellStyles}>
         <TextField
           name="check_in"
-          label="Check In:"
           defaultValue={log.check_in}
           type={"time"}
           onChange={e => {
@@ -45,7 +48,7 @@ const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
           }}
         />
       </TableCell>
-      <TableCell>
+      <TableCell style={CellStyles}>
         <TextField
           name="check_out"
           defaultValue={log.check_out}
@@ -53,13 +56,13 @@ const SessionRow = ({ log, onUpdateLog, onDeleteLog }) => {
           onChange={e => {
             handleChange(e);
           }}
-          label="Check Out:"
         />
       </TableCell>
-      <TableCell>
+      <TableCell style={CellStyles}>
         <Button variant="text" onClick={() => onDeleteLog(log.id)}>
           Delete
         </Button>
+        &nbsp;&nbsp;
         <Button
           variant="outlined"
           disabled={isEmpty(updatedValues)}
