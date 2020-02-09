@@ -7,7 +7,6 @@ import { isEmpty } from "lodash";
 
 const CellStyles = {
   borderBottom: "none",
-  flexShrink: "1"
 };
 
 const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
@@ -58,8 +57,8 @@ const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
           }}
         />
       </TableCell>
-      <TableCell style={CellStyles}>
-        <Button variant="text" onClick={() => onDeleteLog(log.id)}>
+      <TableCell style={{display: "flex", justifyContent: "flex-end", borderBottom: "none"}}>
+        <Button variant="text" onClick={() => onDeleteLog(log.id)} style={{flexGrow: "1", marginRight: "10px"}}>
           Delete
         </Button>
         &nbsp;&nbsp;
@@ -68,6 +67,7 @@ const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
           disabled={isEmpty(updatedValues)}
           color="secondary"
           onClick={handleClickSave}
+          style={{flexGrow: "1"}}
         >
           Save
         </Button>

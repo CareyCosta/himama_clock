@@ -1,14 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { FormGroup } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import Input from "@material-ui/core/Input";
+import FormHelperText from "@material-ui/core/FormHelperText";
+
+const containerStyles = {
+  display: "flex",
+  justifyContent: "center"
+};
+
+const formStyles = {
+  width: "300px"
+};
+
+const formElementStyles = {
+  margin: "20px 0px"
+};
 
 const Login = ({ onLogin, history, loggedInStatus }) => {
   const [user, setUser] = useState({
     username: "",
     email: "",
-    password: "",
-    errors: ""
+    password: ""
   });
+
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
     loggedInStatus && redirect();
@@ -29,9 +48,7 @@ const Login = ({ onLogin, history, loggedInStatus }) => {
           onLogin(response.data);
           redirect();
         } else {
-          this.setState({
-            errors: response.data.errors
-          });
+          setErrors(response.data.errors);
         }
       })
       .catch(error => console.log("api errors:", error));
@@ -43,49 +60,67 @@ const Login = ({ onLogin, history, loggedInStatus }) => {
 
   const handleErrors = () => {
     return (
-      <div>
-        <ul>
-          {user.errors.map(error => {
-            return <li key={error}>{error}</li>;
-          })}
-        </ul>
-      </div>
+      <Fragment>
+        <FormHelperText error style={{ fontWeight: "bold" }}>
+          Please resolve the following error(s):
+        </FormHelperText>
+        {errors.map(error => {
+          return <FormHelperText error>{error}</FormHelperText>;
+        })}
+      </Fragment>
     );
   };
 
   const { username, email, password } = user;
   return (
-    <div>
-      <h1>Log In</h1>
-      <form onSubmit={e => handleSubmit(e)}>
-        <input
-          placeholder="username"
-          type="text"
-          name="username"
-          value={username}
-          onChange={e => handleChange(e)}
-        />
-        <input
-          placeholder="email"
-          type="text"
-          name="email"
-          value={email}
-          onChange={e => handleChange(e)}
-        />
-        <input
-          placeholder="password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={e => handleChange(e)}
-        />
-        <button placeholder="submit" type="submit">
-          Log In
-        </button>
-        <div>
-          or <Link to="/signup">sign up</Link>
+    <div style={containerStyles}>
+      <FormGroup style={formStyles}>
+        <FormLabel>Log In</FormLabel>
+        <div>{errors.length > 0 && handleErrors()}</div>
+        <FormControl style={formElementStyles} error={user.errors}>
+          <Input
+            placeholder="username"
+            type="text"
+            name="username"
+            value={username}
+            onChange={e => handleChange(e)}
+          />
+        </FormControl>
+        <FormControl style={formElementStyles} error={user.errors}>
+          <Input
+            placeholder="email"
+            type="text"
+            name="email"
+            value={email}
+            onChange={e => handleChange(e)}
+          />
+        </FormControl>
+        <FormControl style={formElementStyles} error={user.errors}>
+          <Input
+            placeholder="password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={e => handleChange(e)}
+          />
+        </FormControl>
+        <FormControl>
+          <Button
+            onClick={e => handleSubmit(e)}
+            placeholder="submit"
+            type="submit"
+            variant="contained"
+            color="secondary"
+          >
+            Log In
+          </Button>
+        </FormControl>
+        <div style={{ color: "#0000008a" }}>
+          <Button href="/signup" variant="text" color="primary">
+            or Sign Up
+          </Button>
         </div>
-      </form>
+      </FormGroup>
       <div>{user.errors ? handleErrors() : null}</div>
     </div>
   );

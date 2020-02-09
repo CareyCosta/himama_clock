@@ -3,9 +3,15 @@ class LogsController < ApplicationController
     after_action :cors_set_access_control_headers
     before_action :set_log, only: [:show, :update, :destroy]
 
+    helper_method :login!, :logged_in?, :current_user, :authorized_user?, :logout!
+
   # GET /logs
   def index
     @logs = Log.order(date: :desc, check_out: :desc)
+
+    if params[:user_id].present?
+        @logs = @logs.where(user_id: params[:user_id]).order(date: :desc, check_out: :desc)
+    end
 
     render json: @logs
   end
@@ -48,6 +54,6 @@ class LogsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def log_params
-      params.require(:log).permit(:check_in, :check_out, :date)
+      params.require(:log).permit(:check_in, :check_out, :date, :user_id)
     end
 end

@@ -4,6 +4,13 @@ import Welcome from "./Welcome";
 import Login from "./registrations/Login";
 import Signup from "./registrations/Signup";
 import axios from "axios";
+import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import Home from "./Home";
+
+const containerStyles = {
+  marginTop: "100px",
+  textAlign: "center"
+};
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,6 +23,14 @@ const App = () => {
   const handleLogin = data => {
     setIsLoggedIn(true);
     setUserInfo(data.user);
+  };
+  const handleClickLogout = () => {
+    axios
+      .delete("http://localhost:3001/logout", { withCredentials: true })
+      .then(response => {
+        handleLogout();
+      })
+      .catch(error => console.log(error));
   };
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -35,7 +50,17 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div style={containerStyles}>
+      <AppBar>
+        <Toolbar>
+          <Typography>Time Tracker</Typography>
+          {isLoggedIn && (
+            <Button href="/" onClick={handleClickLogout} style={{color: "white", marginLeft: "15px"}}>
+              Log Out
+            </Button>
+          )}
+        </Toolbar>
+      </AppBar>
       <BrowserRouter>
         <Switch>
           <Route
@@ -44,8 +69,10 @@ const App = () => {
             render={props => (
               <Welcome
                 {...props}
+                user={user}
                 loggedInStatus={isLoggedIn}
                 onLogout={handleLogout}
+                onLogin={handleLogin}
               />
             )}
           />
@@ -71,6 +98,7 @@ const App = () => {
               />
             )}
           />
+          {isLoggedIn && <Home />}
         </Switch>
       </BrowserRouter>
     </div>

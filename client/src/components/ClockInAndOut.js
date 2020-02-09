@@ -3,34 +3,22 @@ import Clock from "react-live-clock";
 import Button from "@material-ui/core/Button/index";
 
 const headerStyles = {
-  padding: "32px 50px 16px 32px",
   display: "flex",
-  alignItems: "center",
-  fontSize: "36px"
+  padding: "0px 16px",
+  justifyContent: "space-between"
 };
 
-const clockStyles = {
-  minWidth: "160px",
-  margin: "0",
-  marginRight: "10px"
+const clockStyle = {
+  fontWeight: "bold",
+  textAlign: "center"
 };
 
-const WelcomeStyles = {
-  flexGrow: "1",
-  margin: "0"
-};
-
-const ButtonContainer = {
-  width: "120px",
-  marginBottom: "5px"
-};
-
-const ClockInAndOut = ({ onCreateLog }) => {
+const ClockInAndOut = ({ onCreateLog, user }) => {
   const [time, setTime] = useState("");
   const [currentLog, setCurrentLog] = useState({});
 
   const handleCheckIn = () => {
-    setCurrentLog({ checkIn: time, date: new Date() });
+    setCurrentLog({ checkIn: time, date: new Date(), user_id: user.id });
   };
 
   const handleCheckOut = () => {
@@ -40,27 +28,26 @@ const ClockInAndOut = ({ onCreateLog }) => {
   };
 
   return (
-    <div>
-      <div style={headerStyles}>
-        <h4 style={WelcomeStyles}>Welcome, User!</h4>
-        <Clock
-          onChange={moment => setTime(moment.output)}
-          format={"HH:mm:ss"}
-          ticking={true}
-          timezone={"EST"}
-          style={clockStyles}
-        />
-        <div>
-          <Button
-            variant="contained"
-            fullWidth
-            color={!currentLog.checkIn ? "primary" : "secondary"}
-            onClick={currentLog.checkIn ? handleCheckOut : handleCheckIn}
-            style={ButtonContainer}
-          >
-            {currentLog.checkIn ? "Check Out" : "Check In"}
-          </Button>
+    <div style={headerStyles}>
+      <h4>Welcome, {user.username}!</h4>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={clockStyle}>
+          <Clock
+            onChange={moment => setTime(moment.output)}
+            format={"HH:mm:ss"}
+            ticking={true}
+            timezone={"EST"}
+          />
         </div>
+        <Button
+          variant="contained"
+          fullWidth
+          color={!currentLog.checkIn ? "primary" : "secondary"}
+          onClick={currentLog.checkIn ? handleCheckOut : handleCheckIn}
+          style={{ marginLeft: "20px" }}
+        >
+          {currentLog.checkIn ? "Check Out" : "Check In"}
+        </Button>
       </div>
     </div>
   );

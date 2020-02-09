@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_09_014044) do
+ActiveRecord::Schema.define(version: 2020_02_09_191907) do
 
   create_table "logs", force: :cascade do |t|
     t.string "check_in"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(version: 2020_02_09_014044) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.date "date"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_logs_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -28,4 +30,5 @@ ActiveRecord::Schema.define(version: 2020_02_09_014044) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "logs", "users"
 end

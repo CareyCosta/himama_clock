@@ -1,29 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import Signup from "./registrations/Signup";
+import Home from "./Home";
 
-const Welcome = ({ loggedInStatus, onLogout, history }) => {
-  const handleClick = () => {
-    axios
-      .delete("http://localhost:3001/logout", { withCredentials: true })
-      .then(response => {
-        onLogout();
-        history.push("/");
-      })
-      .catch(error => console.log(error));
-  };
-
+const Welcome = ({ loggedInStatus, onLogin, history, user }) => {
   return (
     <div>
-      <Link to="/login">Log In</Link>
-      <br></br>
-      <Link to="/signup">Sign Up</Link>
-      <br></br>
-      {loggedInStatus ? (
-        <Link to="/logout" onClick={handleClick}>
-          Log Out
-        </Link>
-      ) : null}
+      {!loggedInStatus ? (
+        <Signup onLogin={onLogin} history={history} />
+      ) : (
+        <Home user={user} />
+      )}
     </div>
   );
 };
