@@ -38,7 +38,7 @@ const Signup = ({ onLogin, history }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/users", { user }, { withCredentials: true })
+      .post("/users", { user }, { withCredentials: true })
       .then(response => {
         if (response.data.status === "created") {
           onLogin(response.data);

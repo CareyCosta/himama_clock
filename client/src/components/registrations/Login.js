@@ -42,7 +42,7 @@ const Login = ({ onLogin, history, loggedInStatus }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/login", { user }, { withCredentials: true })
+      .post("/login", { user }, { withCredentials: true })
       .then(response => {
         if (response.data.logged_in) {
           onLogin(response.data);
