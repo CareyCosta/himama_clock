@@ -5,7 +5,6 @@ import Login from "./registrations/Login";
 import Signup from "./registrations/Signup";
 import axios from "axios";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
-import Home from "./Home";
 
 const containerStyles = {
   marginTop: "100px",
@@ -55,7 +54,11 @@ const App = () => {
         <Toolbar>
           <Typography>Time Tracker</Typography>
           {isLoggedIn && (
-            <Button href="/" onClick={handleClickLogout} style={{color: "white", marginLeft: "15px"}}>
+            <Button
+              href="/"
+              onClick={handleClickLogout}
+              style={{ color: "white", marginLeft: "15px" }}
+            >
               Log Out
             </Button>
           )}
@@ -97,8 +100,7 @@ const App = () => {
                 loggedInStatus={isLoggedIn}
               />
             )}
-          />
-          {isLoggedIn && <Home />}
+          />ß
         </Switch>
       </BrowserRouter>
     </div>
