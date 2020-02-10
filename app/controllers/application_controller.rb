@@ -6,7 +6,7 @@ class ApplicationController < ActionController::API
    end
 
      def cors_set_access_control_headers
-       headers['Access-Control-Allow-Origin'] = 'http://localhost:5100'
+       headers['Access-Control-Allow-Origin'] = 'http://himama-timetracker.herokuapp.com'
        headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
        headers['Access-Control-Allow-Headers'] = 'Origin, Content-Type, Accept, Authorization, Token'
        headers['Access-Control-Max-Age'] = "1728000"
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
 
      def cors_preflight_check
         if request.method == 'OPTIONS'
-          headers['Access-Control-Allow-Origin'] = 'http://localhost:5100'
+          headers['Access-Control-Allow-Origin'] = 'http://himama-timetracker.herokuapp.com'
           headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
           headers['Access-Control-Allow-Headers'] = 'X-Requested-With, X-Prototype-Version, Token'
           headers['Access-Control-Max-Age'] = '1728000'
