@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Clock from "react-live-clock";
 import Button from "@material-ui/core/Button/index";
+import { isEmpty, isNull } from "lodash";
 
 const headerStyles = {
   display: "flex",
@@ -13,18 +14,33 @@ const clockStyle = {
   textAlign: "center"
 };
 
-const ClockInAndOut = ({ onCreateLog, user }) => {
+const ClockInAndOut = ({ onCreateLog, onUpdateLog, user, isActiveLog }) => {
   const [time, setTime] = useState("");
   const [currentLog, setCurrentLog] = useState({});
 
+  useEffect(() => {
+    if (!isEmpty(isActiveLog)) {
+      setCurrentLog(isActiveLog);
+    }
+  }, [isActiveLog]);
+
   const handleCheckIn = () => {
-    setCurrentLog({ checkIn: time, date: new Date(), user_id: user.id });
-    onCreateLog(currentLog);
+    setCurrentLog({
+      check_in: time,
+      date: new Date(),
+      user_id: user.id,
+      check_out: null
+    });
+    onCreateLog({
+      check_in: time,
+      date: new Date(),
+      user_id: user.id,
+      check_out: null
+    });
   };
 
   const handleCheckOut = () => {
-    setCurrentLog((currentLog["checkOut"] = time));
-    onCreateLog(currentLog);
+    onUpdateLog({ ...currentLog, check_out: time });
     setCurrentLog({});
   };
 
@@ -43,11 +59,13 @@ const ClockInAndOut = ({ onCreateLog, user }) => {
         <Button
           variant="contained"
           fullWidth
-          color={!currentLog.checkIn ? "primary" : "secondary"}
-          onClick={currentLog.checkIn ? handleCheckOut : handleCheckIn}
+          color={isNull(currentLog.check_out) ? "secondary" : "primary"}
+          onClick={
+            isNull(currentLog.check_out) ? handleCheckOut : handleCheckIn
+          }
           style={{ marginLeft: "20px" }}
         >
-          {currentLog.checkIn ? "Check Out" : "Check In"}
+          {isNull(currentLog.check_out) ? "Check Out" : "Check In"}
         </Button>
       </div>
     </div>

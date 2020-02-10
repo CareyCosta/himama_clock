@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
-import { isEmpty } from "lodash";
+import { isEqual } from "lodash";
 
 const CellStyles = {
-  borderBottom: "none",
+  borderBottom: "none"
 };
 
 const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
-  const [updatedValues, setUpdatedValues] = useState({});
+  const [updatedValues, setUpdatedValues] = useState(log);
+
+  useEffect(() => {
+    setUpdatedValues(log);
+  }, [log]);
 
   const handleClickSave = () => {
     onUpdateLog(updatedValues);
-    setUpdatedValues({});
   };
 
   const handleChange = e => {
@@ -30,7 +33,7 @@ const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
       <TableCell style={CellStyles}>
         <TextField
           name="date"
-          defaultValue={log.date}
+          value={updatedValues.date}
           type="date"
           onChange={e => {
             handleChange(e);
@@ -40,7 +43,7 @@ const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
       <TableCell style={CellStyles}>
         <TextField
           name="check_in"
-          defaultValue={log.check_in}
+          value={updatedValues.check_in}
           type={"time"}
           onChange={e => {
             handleChange(e);
@@ -50,26 +53,36 @@ const LogRow = ({ log, onUpdateLog, onDeleteLog }) => {
       <TableCell style={CellStyles}>
         <TextField
           name="check_out"
-          defaultValue={log.check_out}
+          value={updatedValues.check_out || ''}
           type="time"
           onChange={e => {
             handleChange(e);
           }}
         />
       </TableCell>
-      <TableCell style={{display: "flex", justifyContent: "flex-end", borderBottom: "none"}}>
-        <Button variant="text" onClick={() => onDeleteLog(log.id)} style={{flexGrow: "1", marginRight: "10px"}}>
+      <TableCell
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          borderBottom: "none"
+        }}
+      >
+        <Button
+          variant="text"
+          onClick={() => onDeleteLog(log.id)}
+          style={{ flexGrow: "1", marginRight: "10px" }}
+        >
           Delete
         </Button>
         &nbsp;&nbsp;
         <Button
           variant="outlined"
-          disabled={isEmpty(updatedValues)}
+          disabled={isEqual(updatedValues, log)}
           color="secondary"
           onClick={handleClickSave}
-          style={{flexGrow: "1"}}
+          style={{ flexGrow: "1" }}
         >
-          Save
+          Update
         </Button>
       </TableCell>
     </TableRow>

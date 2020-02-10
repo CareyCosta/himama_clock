@@ -6,7 +6,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 
-const TimeLogList = ({ logs, onUpdateLog, onDeleteLog, user }) => {
+const TimeLogList = ({ logs, onUpdateLog, onDeleteLog }) => {
   return (
     <Table>
       <TableHead>

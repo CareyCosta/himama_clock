@@ -7,7 +7,7 @@ class LogsController < ApplicationController
 
   # GET /logs
   def index
-    @logs = Log.order(date: :desc, check_out: :desc)
+    @logs = Log.order(date: :desc, check_in: :desc)
 
     if params[:user_id].present?
         @logs = @logs.where(user_id: params[:user_id]).order(date: :desc, check_out: :desc)

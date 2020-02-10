@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ClockInAndOut from "./ClockInAndOut";
 import TimeLogList from "./TimeLogList";
 import axios from "axios";
+import { isNull } from "lodash";
 
 const ContainerStyles = {
   display: "flex",
@@ -14,28 +15,33 @@ const MaxWidth = {
 
 const Home = ({ user }) => {
   const [logs, setLogs] = useState([]);
+  const [isActiveLog, setIsActiveLog] = useState({});
 
   useEffect(() => {
     getLogs();
   }, [user]);
 
-  const getLogs = async () => {
+  const getLogs = () => {
     if (!user.id) {
       return;
     }
     axios
       .get(`http://localhost:3001/logs?user_id=${user.id}/`)
       .then(response => {
-        console.log("response.data", response.data);
         setLogs(response.data);
+        if (isNull(response.data[0].check_out)) {
+          setIsActiveLog({ ...response.data[0] });
+        } else {
+          setIsActiveLog({});
+        }
       })
       .catch(error => console.log(error));
   };
 
   const createLog = log => {
     const data = {
-      check_in: log.checkIn,
-      check_out: log.checkOut,
+      check_in: log.check_in,
+      check_out: log.check_out,
       date: log.date,
       user_id: log.user_id
     };
@@ -73,7 +79,13 @@ const Home = ({ user }) => {
   return (
     <div style={ContainerStyles}>
       <div style={MaxWidth}>
-        <ClockInAndOut onCreateLog={createLog} user={user} />
+        <ClockInAndOut
+          onCreateLog={createLog}
+          user={user}
+          onUpdateLog={updateLog}
+          logs={logs}
+          isActiveLog={isActiveLog}
+        />
         <TimeLogList
           logs={logs}
           onUpdateLog={updateLog}
