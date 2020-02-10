@@ -1,0 +1,29 @@
+{
+  "name": "himama_clock",
+  "version": "1.0.0",
+  "description": "time tracking application ",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "build": "cd client && yarn install && yarn build && cd ..",
+    "deploy": "cp -a client/build/. public/",
+    "postinstall": "yarn build && yarn deploy && echo 'Client built!'"
+  },
+  "engines": {
+    "npm": "6.13.7",
+    "node": "10.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CareyCosta/himama_clock.git"
+  },
+  "author": "Carey Costa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CareyCosta/himama_clock/issues"
+  },
+  "homepage": "https://github.com/CareyCosta/himama_clock#readme"
+}

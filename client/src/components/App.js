@@ -26,7 +26,7 @@ const App = () => {
   };
   const handleClickLogout = () => {
     axios
-      .delete("http://localhost:3001/logout", { withCredentials: true })
+      .delete("/logout", { withCredentials: true })
       .then(response => {
         handleLogout();
       })
@@ -38,7 +38,7 @@ const App = () => {
   };
   const loginStatus = () => {
     axios
-      .get("http://localhost:3001/logged_in", { withCredentials: true })
+      .get("/logged_in", { withCredentials: true })
       .then(response => {
         if (response.data.logged_in) {
           handleLogin(response);

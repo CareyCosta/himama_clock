@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::API
  include ActionController::Helpers
 
+   def fallback_index_html
+     render :file => 'public/index.html'
+   end
+
      def cors_set_access_control_headers
        headers['Access-Control-Allow-Origin'] = 'http://localhost:5100'
        headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'

@@ -26,7 +26,7 @@ const Home = ({ user }) => {
       return;
     }
     axios
-      .get(`http://localhost:3001/logs?user_id=${user.id}/`)
+      .get(`/logs?user_id=${user.id}/`)
       .then(response => {
         setLogs(response.data);
         if (isNull(response.data[0].check_out)) {
@@ -46,7 +46,7 @@ const Home = ({ user }) => {
       user_id: log.user_id
     };
     axios
-      .post(`http://localhost:3001/logs/`, data)
+      .post(`/logs/`, data)
       .then(() => {
         getLogs();
       })
@@ -60,7 +60,7 @@ const Home = ({ user }) => {
       date: log.date
     };
     axios
-      .put(`http://localhost:3001/logs/${log.id}`, data)
+      .put(`/logs/${log.id}`, data)
       .then(resp => {
         getLogs();
       })
@@ -69,7 +69,7 @@ const Home = ({ user }) => {
 
   const deleteLog = logId => {
     axios
-      .delete(`http://localhost:3001/logs/${logId}`)
+      .delete(`/logs/${logId}`)
       .then(() => {
         getLogs();
       })
