@@ -1,24 +1,6 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+View a demo of this app here: https://share.vidyard.com/watch/FGEa8FY7CHLqs6ahon3KG8?
 
-Things you may want to cover:
+To run this app locally, pull the `develop` branch, and from the root directory run `foreman start`
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
