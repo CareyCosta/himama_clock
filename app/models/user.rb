@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     has_secure_password
-    has_many :logs
+    has_many :logs, :dependent => :destroy
 
     validates :username, presence: true
     validates :username, uniqueness: true

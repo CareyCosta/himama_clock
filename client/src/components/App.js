@@ -3,8 +3,8 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Welcome from "./Welcome";
 import Login from "./registrations/Login";
 import Signup from "./registrations/Signup";
-import axios from "axios";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { getLoginStatus, logOutUser } from "./repository";
 
 const containerStyles = {
   marginTop: "100px",
@@ -16,36 +16,29 @@ const App = () => {
   const [user, setUserInfo] = useState({});
 
   useEffect(() => {
-    loginStatus();
-  }, []);
-
-  const handleLogin = data => {
-    setIsLoggedIn(true);
-    setUserInfo(data.user);
-  };
-  const handleClickLogout = () => {
-    axios
-      .delete("http://localhost:3001/logout", { withCredentials: true })
-      .then(response => {
-        handleLogout();
-      })
-      .catch(error => console.log(error));
-  };
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserInfo({});
-  };
-  const loginStatus = () => {
-    axios
-      .get("http://localhost:3001/logged_in", { withCredentials: true })
-      .then(response => {
-        if (response.data.logged_in) {
-          handleLogin(response);
+    getLoginStatus()
+      .then(resp => {
+        if (resp.logged_in) {
+          handleLogin(resp);
         } else {
           handleLogout();
         }
       })
       .catch(error => console.log("api errors:", error));
+  }, []);
+
+  const handleLogin = user => {
+    setIsLoggedIn(true);
+    setUserInfo(user);
+  };
+
+  const handleLogout = () => {
+    logOutUser()
+      .then(() => {
+        setIsLoggedIn(false);
+        setUserInfo({});
+      })
+      .catch(error => console.log(error));
   };
 
   return (
@@ -56,7 +49,7 @@ const App = () => {
           {isLoggedIn && (
             <Button
               href="/"
-              onClick={handleClickLogout}
+              onClick={logOutUser}
               style={{ color: "white", marginLeft: "15px" }}
             >
               Log Out
@@ -100,7 +93,7 @@ const App = () => {
                 loggedInStatus={isLoggedIn}
               />
             )}
-          />ß
+          />
         </Switch>
       </BrowserRouter>
     </div>

@@ -1,11 +1,11 @@
 import React, { useEffect, useState, Fragment } from "react";
-import axios from "axios";
 import { FormGroup } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import { logInUser } from "../repository";
 
 const containerStyles = {
   display: "flex",
@@ -33,6 +33,10 @@ const Login = ({ onLogin, history, loggedInStatus }) => {
     loggedInStatus && redirect();
   });
 
+  const redirect = () => {
+    history.push("/");
+  };
+
   const handleChange = e => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
@@ -41,21 +45,16 @@ const Login = ({ onLogin, history, loggedInStatus }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:3001/login", { user }, { withCredentials: true })
-      .then(response => {
-        if (response.data.logged_in) {
-          onLogin(response.data);
+    logInUser({user})
+      .then(resp => {
+        if (resp.logged_in) {
+          onLogin(resp.user);
           redirect();
         } else {
-          setErrors(response.data.errors);
+          setErrors(resp.errors);
         }
       })
       .catch(error => console.log("api errors:", error));
-  };
-
-  const redirect = () => {
-    history.push("/");
   };
 
   const handleErrors = () => {

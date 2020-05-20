@@ -24,13 +24,8 @@ const ClockInAndOut = ({ onCreateLog, onUpdateLog, user, isActiveLog }) => {
     }
   }, [isActiveLog]);
 
+
   const handleCheckIn = () => {
-    setCurrentLog({
-      check_in: time,
-      date: new Date(),
-      user_id: user.id,
-      check_out: null
-    });
     onCreateLog({
       check_in: time,
       date: new Date(),
